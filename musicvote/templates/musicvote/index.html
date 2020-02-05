@@ -1,0 +1,32 @@
+{% load static %}
+<!-- static template tag generates the absolute URL of static files -->
+<link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> 
+{% if artist_list %}
+<div class="grid">
+{% for artist in artist_list %}
+    <div class="tile">
+        <!-- HARDCODED URL -->
+        <!-- <a href="/polls/{{ question.id }}/">{{ question.question_text }}</a> -->
+        <!-- 
+            template tag looks up the URL definition as specified in polls.urls module:
+            path('<int:question_id>/', views.detail, name='detail')
+            now any changes to the URL made in polls.url will be propagated to the links generated here
+         -->
+        <a href="{% url 'musicvote:artist-detail' artist.id %}">
+            {% if artist.photo %}
+            {% with 'musicvote/images/'|add:artist.photo as image_static %}
+            <img src="{% static image_static %}" width=200 height=200 alt="{{ artist.name }}"><br>
+            {% endwith %}
+            {% else %}
+            <img src="{% static 'musicvote/images/default.png' %}" width=200 height=200><br>
+            {% endif %}
+            <strong>{{ artist.artist_name }}</strong>
+        </a><br>
+        {{ artist.number_of_songs }} song{{ artist.number_of_songs|pluralize }} available.
+    </div>
+{% endfor %}
+</div>
+{% else %}
+<p>No artists available.</p>
+{% endif %}

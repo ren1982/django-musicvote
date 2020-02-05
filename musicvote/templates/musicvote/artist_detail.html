@@ -1,0 +1,27 @@
+{% load static %}
+<!-- static template tag generates the absolute URL of static files -->
+<link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> 
+<h1>{{ artist.artist_name|upper }}</h1>
+<div class="sidebyside">
+    <div class="colview">
+        {% if artist.photo %}
+        {% with 'musicvote/images/'|add:artist.photo as image_static %}
+        <img src="{% static image_static %}" width=200 height=200 alt="{{ artist.name }}"><br>
+        {% endwith %}
+        {% else %}
+        <img src="{% static 'musicvote/images/default.png' %}" width=200 height=200><br>
+        {% endif %}
+    </div>
+    <div class="colview">
+        {% if artist.birthdate %}
+        <strong>Birthdate:</strong> {{ artist.birthdate }}<br>
+        {% endif %}
+        <strong>{{ artist.number_of_songs }} Songs:</strong>
+        <ul>
+            {% for song in song_titles %}
+            <li><a href="{% url 'musicvote:song-detail' song.id %}">{{ song.song_title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

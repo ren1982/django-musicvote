@@ -1,0 +1,26 @@
+.grid {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-flow: dense;
+}
+
+.sidebyside {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.colview {
+    float: left;
+/*    width: 40%;*/
+    padding: 0 10px;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+a {
+  color: #0da875;
+}

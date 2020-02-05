@@ -1,0 +1,33 @@
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
+
+class Artist(models.Model):
+	artist_name = models.CharField(max_length=200)
+	birthdate = models.DateField(blank=True, null=True)
+	photo = models.CharField(max_length=200, blank=True, default='') # Placeholder for image name in \music\musicvote\static\musicvote
+
+	class Meta:
+		ordering = ['artist_name']
+
+	def __str__(self):
+		return self.artist_name
+
+class Song(models.Model):
+	song_title = models.CharField(max_length=200)
+	artists = models.ManyToManyField(Artist, related_name='songs')
+	youtube_link = models.URLField(max_length=200, blank=True, default='')
+	spotify_link = models.URLField(max_length=200, blank=True, default='')
+
+	class Meta:
+		ordering = ['song_title']
+
+	def __str__(self):
+		return self.song_title
+
+class Rating(models.Model):
+	song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='ratings')
+	rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+	def __str__(self):
+		return str(self.rating)
