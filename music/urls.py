@@ -21,5 +21,6 @@ urlpatterns = [
     # path('musicvote/', include('musicvote.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    path('musicvote/', include('musicvote.urls'))
+    path('api/auth/', include('djoser.urls.authtoken')),
+    path('musicvote/', include('musicvote.urls')),
 ]

@@ -25,14 +25,25 @@ class ArtistSerializer(serializers.HyperlinkedModelSerializer):
 
 	class Meta:
 		model = Artist
-		fields = ('artist_name', 'birthdate', 'songs')
+		fields = ('id', 'artist_name', 'birthdate', 'songs')
 
 class SongSerializer(serializers.HyperlinkedModelSerializer):
 	artists = ArtistNameSerializer(read_only=True, many=True)
-	number_of_ratings = serializers.IntegerField()
-	average_rating = serializers.DecimalField(max_digits=None, decimal_places=2)
+	number_of_ratings = serializers.IntegerField(read_only=True)
+	average_rating = serializers.DecimalField(read_only=True, max_digits=None, decimal_places=2)
 
 	class Meta:
 		model = Song
-		fields = ('song_title', 'artists', 'youtube_link', 'spotify_link', 'number_of_ratings', 'average_rating',)
+		fields = ('id', 'song_title', 'artists', 'youtube_link', 'spotify_link', 'number_of_ratings', 'average_rating',)
 
+	# def create(self, validated_data):
+	# 	artist_data = validated_data.pop('artists')
+	# 	print(artist_data)
+	# 	song = Song.objects.create(**validated_data)
+	# 	song.save()
+	# 	for artist_item in artist_data:
+	# 		print(artist_item)
+	# 		a, created = Artist.objects.get_or_create(artist_name=artist_item['artist_name'])
+	# 		print(a)
+	# 		song.artists.add(a)
+	# 	return song

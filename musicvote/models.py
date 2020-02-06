@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import Avg
 
 class Artist(models.Model):
-	artist_name = models.CharField(max_length=200)
+	artist_name = models.CharField(max_length=200, unique=True)
 	birthdate = models.DateField(blank=True, null=True)
 	photo = models.CharField(max_length=200, blank=True, default='') # Placeholder for image name in \music\musicvote\static\musicvote
 
