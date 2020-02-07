@@ -33,13 +33,17 @@
     </div>
     <div class="colview">
         <h3>Rate This Song!</h3>
-        <div class="sidebyside">
+        {% if request.user.is_authenticated %}
+        <div class="sidebyside" id="votenumber">
             {% for i in '12345'|make_list %}
             <div class="votenumber" id="votenumber">
             	<a href="#">{{ forloop.counter }}</a>
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <h4><a href="{% url 'register' %}">Create a new account</a> or <a href="{% url 'login' %}">login</a> to be able to rate songs!</h4>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

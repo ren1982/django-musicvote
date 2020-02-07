@@ -15,10 +15,10 @@
         <a href="{% url 'musicvote:artist-detail' artist.id %}">
             {% if artist.photo %}
             {% with 'musicvote/images/'|add:artist.photo as image_static %}
-            <img src="{% static image_static %}" width=200 height=200 alt="{{ artist.name }}"><br>
+            <img src="{% static image_static %}" width=200 height=200 alt="{{ artist.name }}" class="artist_image"><br>
             {% endwith %}
             {% else %}
-            <img src="{% static 'musicvote/images/default.png' %}" width=200 height=200><br>
+            <img src="{% static 'musicvote/images/default.png' %}" width=200 height=200 class="artist_image"><br>
             {% endif %}
             <strong>{{ artist.artist_name }}</strong>
         </a><br>
