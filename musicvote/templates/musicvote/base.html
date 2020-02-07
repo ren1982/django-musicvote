@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MUSICVOTE</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> 
+</head>
+<body>
+	<header><a href="{% url 'musicvote:index' %}"><h1>MusicVote</h1></a></header>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>

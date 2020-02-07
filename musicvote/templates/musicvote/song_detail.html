@@ -1,9 +1,8 @@
+{% extends 'musicvote/base.html' %}
 {% load static %}
-<!-- static template tag generates the absolute URL of static files -->
-<link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-<h1>{{ song.song_title|upper }}</h1>
-<h2>{{ artist_names|upper }}</h2>
+{% block content %}
+<h2>{{ song.song_title|upper }}</h2>
+<h3>{{ artist_names|upper }}</h3>
 <div>
     {% if song.youtube_link %}
     <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ song.youtube_stub }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -36,8 +35,11 @@
         <h3>Rate This Song!</h3>
         <div class="sidebyside">
             {% for i in '12345'|make_list %}
-            <div class="votenumber" id="votenumber"><a href="#">{{ forloop.counter }}</a></div>
+            <div class="votenumber" id="votenumber">
+            	<a href="#">{{ forloop.counter }}</a>
+            </div>
             {% endfor %}
         </div>
     </div>
 </div>
+{% endblock %}

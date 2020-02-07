@@ -7,7 +7,10 @@ class ArtistAdmin(admin.ModelAdmin):
 class SongAdmin(admin.ModelAdmin):
 	list_display = ('song_title', 'get_artists', 'youtube_link', 'spotify_link')
 
+class RatingAdmin(admin.ModelAdmin):
+	list_display = ('song', 'user', 'rating')
+
 # Register your models here.
 admin.site.register(Artist, ArtistAdmin)
 admin.site.register(Song, SongAdmin)
-admin.site.register(Rating)
+admin.site.register(Rating, RatingAdmin)

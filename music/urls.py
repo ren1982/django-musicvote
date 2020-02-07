@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from .api import router
+from register import views as v
 
 urlpatterns = [
     # path('musicvote/', include('musicvote.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('api/auth/', include('djoser.urls.authtoken')),
+    path('register/', v.register, name='register'),
     path('', include('musicvote.urls')),
     path('', include('social_django.urls', namespace='social')),
 ]

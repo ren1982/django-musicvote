@@ -1,7 +1,6 @@
+{% extends 'musicvote/base.html' %}
 {% load static %}
-<!-- static template tag generates the absolute URL of static files -->
-<link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> 
+{% block content %}
 {% if artist_list %}
 <div class="grid">
 {% for artist in artist_list %}
@@ -30,3 +29,4 @@
 {% else %}
 <p>No artists available.</p>
 {% endif %}
+{% endblock %}

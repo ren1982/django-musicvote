@@ -8,7 +8,7 @@ from django.db.models import Avg, Count
 # from django.template import loader
 from rest_framework import viewsets, generics
 
-from .models import Artist, Song, Rating
+from .models import Artist, Song
 from .serializers import ArtistSerializer, SongSerializer
 
 # APP/WEBSITE VIEWS

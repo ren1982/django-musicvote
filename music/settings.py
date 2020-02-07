@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework.authtoken',
     'social_django',
+    'crispy_forms',
+    'register.apps.RegisterConfig',
 ]
 
 REST_FRAMEWORK = {
@@ -154,3 +156,5 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

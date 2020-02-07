@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import Avg
+from django.conf import settings
 
 class Artist(models.Model):
 	artist_name = models.CharField(max_length=200, unique=True)
@@ -34,8 +35,14 @@ class Song(models.Model):
 	get_artists.short_description = 'Artist(s)'
 
 class Rating(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
 	song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='ratings')
 	rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+	class Meta:
+		constraints = [
+			models.UniqueConstraint(fields=['user', 'song'], name='rating by user')
+		]			
 
 	def __str__(self):
 		return str(self.rating)

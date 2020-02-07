@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Artist, Song, Rating
+from .models import Artist, Song
 
 class ArtistNameSerializer(serializers.ModelSerializer):
 	class Meta:
