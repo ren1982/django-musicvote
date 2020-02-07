@@ -1,33 +1,43 @@
 {% load static %}
 <!-- static template tag generates the absolute URL of static files -->
 <link rel="stylesheet" type="text/css" href="{% static 'musicvote/style.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 <h1>{{ song.song_title|upper }}</h1>
 <h2>{{ artist_names|upper }}</h2>
-
-{% if song.youtube_link %}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ song.youtube_stub }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-{% endif %}
-
-{% if song.spotify_link %}
-<iframe src="https://open.spotify.com/embed/track/{{ song.spotify_stub }}" width="249" height="315" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-{% endif %}
-
+<div>
+    {% if song.youtube_link %}
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ song.youtube_stub }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    {% endif %}
+    {% if song.spotify_link %}
+    <iframe src="https://open.spotify.com/embed/track/{{ song.spotify_stub }}" width="249" height="315" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    {% endif %}
+</div>
 <div class="sidebyside">
-	<div class="colview">
-		<strong>
-			{% if song.youtube_link %}
-			<a href="{{ song.youtube_link }}" target="_blank">Watch the video on YouTube</a><br>
-			{% endif %}
-		</strong>
-		<strong>
-			{% if song.spotify_link %}
-			<a href="{{ song.spotify_link }}" target="_blank">Listen to the song on Spotify</a><br>
-			{% endif %}
-		</strong>
-		<strong>Average Rating:</strong> {{ song.average_rating }} / 5 <em>({{ song.number_of_ratings }} vote{{ song.number_of_ratings|pluralize }})</em><br>
-	</div>
-	<div class="colview">
-		<h3>Rate This Song!</h3>
-	</div>
+    <div class="colview">
+        <p><strong>
+                {% if song.youtube_link %}
+                <a href="{{ song.youtube_link }}" target="_blank">Watch the video on YouTube</a><br>
+                {% endif %}
+            </strong></p>
+        <p><strong>
+                {% if song.spotify_link %}
+                <a href="{{ song.spotify_link }}" target="_blank">Listen to the song on Spotify</a><br>
+                {% endif %}
+            </strong></p>
+        <p><strong>Average Rating:</strong>
+            {% if song.number_of_ratings == 0 %}
+            <em>No ratings yet!</em>
+            {% else %}
+            {{ song.average_rating }} / 5 <em>({{ song.number_of_ratings }} vote{{ song.number_of_ratings|pluralize }})</em>
+            {% endif %}
+        </p>
+    </div>
+    <div class="colview">
+        <h3>Rate This Song!</h3>
+        <div class="sidebyside">
+            {% for i in '12345'|make_list %}
+            <div class="votenumber" id="votenumber"><a href="#">{{ forloop.counter }}</a></div>
+            {% endfor %}
+        </div>
+    </div>
 </div>

@@ -25,7 +25,7 @@ SECRET_KEY = 'n*ssjztmx^23-!gspxyh!7#m*do1r@#=^vcwcnbf#t17#7l4gc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['musicvoteproj.herokuapp.com']
+ALLOWED_HOSTS = ['musicvoteproj.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'musicvote',
     'djoser',
     'rest_framework.authtoken',
+    'social_django',
 ]
 
 REST_FRAMEWORK = {
@@ -147,3 +148,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)

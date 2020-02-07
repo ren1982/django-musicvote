@@ -71,23 +71,24 @@ class SongDetailView(generic.DetailView):
 		context['artist_names'] = ', '.join([artist.artist_name for artist in context['song'].artists.all()])
 		return context
 
-def rate_song(request, song_id):
-	song = get_object_or_404(Song, pk=song_id)
-	try:
-		selected_choice = question.choice_set.get(pk=request.POST['choice'])
-	except (KeyError, Choice.DoesNotExist):
-		# Redisplay the question voting form
-		return render(request, 'polls/detail.html', {
-			'question': question,
-			'error_message': "You didn't select a choice.",
-		})
-	else:
-		selected_choice.votes += 1
-		selected_choice.save()
-		# Always return an HttpResponseRedirect after successfully dealing with POST data.
-		# This prevents data from being posted twice ifa user hits the Back button.
-		# reverse('polls:results', args=(question.id)) is analog to {% url 'polls:results' question.id %}
-		return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+# def rate_song(request, song_id):
+# 	song = get_object_or_404(Song, pk=song_id)
+# 	score = request.POST['score']
+# 	new_rating = Rating(song=song, rating=score)
+# 		selected_choice = question.choice_set.get(pk=request.POST['choice'])
+# 	except (KeyError, Choice.DoesNotExist):
+# 		# Redisplay the question voting form
+# 		return render(request, 'polls/detail.html', {
+# 			'question': question,
+# 			'error_message': "You didn't select a choice.",
+# 		})
+# 	else:
+# 		selected_choice.votes += 1
+# 		selected_choice.save()
+# 		# Always return an HttpResponseRedirect after successfully dealing with POST data.
+# 		# This prevents data from being posted twice ifa user hits the Back button.
+# 		# reverse('polls:results', args=(question.id)) is analog to {% url 'polls:results' question.id %}
+# 		return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 # API VIEWS
 class ArtistViewSet(viewsets.ModelViewSet):
