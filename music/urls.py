@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import include, path
 from .api import router
 from register import views as v
+from django.contrib.auth.views import LoginView, LogoutView
+# from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     # path('musicvote/', include('musicvote.urls')),
@@ -24,6 +26,11 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/auth/', include('djoser.urls.authtoken')),
     path('register/', v.register, name='register'),
+    # path('login/', login, name='login'),
+    # path('logout/', logout, name='logout'),
+    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
     path('', include('musicvote.urls')),
     path('', include('social_django.urls', namespace='social')),
+    # path('', include('django.contrib.auth.urls')),
 ]
