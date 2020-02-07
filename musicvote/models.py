@@ -13,6 +13,10 @@ class Artist(models.Model):
 	def __str__(self):
 		return self.artist_name
 
+	def get_songs(self):
+		return ", ".join(["\"" + s.song_title +"\"" for s in self.songs.all()])
+	get_songs.short_description = 'Song(s)'
+
 class Song(models.Model):
 	song_title = models.CharField(max_length=200)
 	artists = models.ManyToManyField(Artist, related_name='songs')
@@ -24,6 +28,10 @@ class Song(models.Model):
 
 	def __str__(self):
 		return self.song_title
+
+	def get_artists(self):
+		return ", ".join([a.artist_name for a in self.artists.all()])
+	get_artists.short_description = 'Artist(s)'
 
 class Rating(models.Model):
 	song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name='ratings')
