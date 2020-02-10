@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
@@ -45,6 +45,14 @@ class ArtistDetailView(generic.DetailView):
 		context['song_titles'] = context['artist'].songs.all()
 		return context
 
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+
+		if self.request.path != self.object.get_absolute_url():
+			return redirect(self.object, permanent=True)
+
+		return super().get(self, request, args, kwargs)
+
 class SongDetailView(generic.DetailView):
 	# DetailView: "display a detail page for a particular type of object"
 	model = Song
@@ -70,6 +78,14 @@ class SongDetailView(generic.DetailView):
 		context = super().get_context_data(**kwargs)
 		context['artist_names'] = ', '.join([artist.artist_name for artist in context['song'].artists.all()])
 		return context
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+
+		if self.request.path != self.object.get_absolute_url():
+			return redirect(self.object, permanent=True)
+
+		return super().get(self, request, args, kwargs)
 
 # def rate_song(request, song_id):
 # 	song = get_object_or_404(Song, pk=song_id)

@@ -18,6 +18,8 @@ from django.urls import include, path
 from .api import router
 from register import views as v
 from django.contrib.auth.views import LoginView, LogoutView
+from django.conf import settings
+from django.conf.urls.static import static
 # from django.contrib.auth.views import login, logout
 
 urlpatterns = [
@@ -33,4 +35,4 @@ urlpatterns = [
     path('', include('musicvote.urls')),
     path('', include('social_django.urls', namespace='social')),
     # path('', include('django.contrib.auth.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

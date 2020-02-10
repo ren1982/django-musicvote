@@ -6,7 +6,7 @@
     <div class="colview">
         {% if artist.photo %}
         {% with 'musicvote/images/'|add:artist.photo as image_static %}
-        <img src="{% static image_static %}" width=200 height=200 alt="{{ artist.name }}"><br>
+        <img src="{{ artist.photo.url }}" width=200 height=200 alt="{{ artist.name }}"><br>
         {% endwith %}
         {% else %}
         <img src="{% static 'musicvote/images/default.png' %}" width=200 height=200><br>
@@ -19,7 +19,7 @@
         <strong>{{ artist.number_of_songs }} Songs:</strong>
         <ul>
             {% for song in song_titles %}
-            <li><a href="{% url 'musicvote:song-detail' song.id %}">{{ song.song_title }}</a></li>
+            <li><a href="{% url 'musicvote:song-detail' song.slug song.id %}">{{ song.song_title }}</a></li>
             {% endfor %}
         </ul>
     </div>
