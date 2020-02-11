@@ -91,31 +91,6 @@ WSGI_APPLICATION = 'music.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-# # db_from_env = dj_database_url.config()
-# # DATABASES['default'].update(db_from_env)
-
-# DATABASES = {}
-# DATABASES['default'] = dj_database_url.config(default='postgres://vbehgvyyejofnj:4c204a9cc68f9b49b2a84c6ff1c682020d8dc9233e62c13e5e4abcfe4c809441@ec2-50-17-178-87.compute-1.amazonaws.com:5432/d5lhsic8v4ne1o')
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -165,7 +140,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'musicvote-heroku-bucket'
-AWS_S3_REGION_NAME = 'eu-east-2'
+AWS_S3_REGION_NAME = 'us-east-2'
 
 # Extra lookup directories for collectstatic to find static files
 # STATICFILES_DIRS = (
