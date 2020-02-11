@@ -1,0 +1,9 @@
+{% extends 'musicvote/base.html' %}
+{% load static %}
+{% block content %}
+{% if user and not user.is_anonymous %}
+Hello <strong>{{ user.get_full_name|default:user.username }}</strong>!
+{% else %}
+Hello <strong>stranger</strong>!
+{% endif %}
+{% endblock %}

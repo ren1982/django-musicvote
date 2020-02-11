@@ -4,14 +4,27 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.db.models import Avg, Count
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.template.context import RequestContext
+from django.contrib.auth.decorators import login_required
 # from django.http import Http404
 # from django.template import loader
 from rest_framework import viewsets, generics
 
-from .models import Artist, Song
+from .models import Artist, Song, Rating
 from .serializers import ArtistSerializer, SongSerializer
 
 # APP/WEBSITE VIEWS
+# def login(request):
+# 	return render(request, 'musicvote/login.html')
+
+# @login_required
+def home(request):
+	return render(request, 'musicvote/home.html')
+
+
 class IndexView(generic.ListView):
 	queryset = Artist.objects.all()
 	# ListView: "display a list of objects"
@@ -81,31 +94,37 @@ class SongDetailView(generic.DetailView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
+		self.request.has_voted = Rating.objects.filter(user=request.user.pk, song=self.object.pk).exists()
+		if self.request.has_voted:
+			self.request.current_rating = Rating.objects.get(user=request.user.pk, song=self.object.pk).rating
 
 		if self.request.path != self.object.get_absolute_url():
 			return redirect(self.object, permanent=True)
 
 		return super().get(self, request, args, kwargs)
 
-# def rate_song(request, song_id):
-# 	song = get_object_or_404(Song, pk=song_id)
-# 	score = request.POST['score']
-# 	new_rating = Rating(song=song, rating=score)
-# 		selected_choice = question.choice_set.get(pk=request.POST['choice'])
-# 	except (KeyError, Choice.DoesNotExist):
-# 		# Redisplay the question voting form
-# 		return render(request, 'polls/detail.html', {
-# 			'question': question,
-# 			'error_message': "You didn't select a choice.",
-# 		})
-# 	else:
-# 		selected_choice.votes += 1
-# 		selected_choice.save()
-# 		# Always return an HttpResponseRedirect after successfully dealing with POST data.
-# 		# This prevents data from being posted twice ifa user hits the Back button.
-# 		# reverse('polls:results', args=(question.id)) is analog to {% url 'polls:results' question.id %}
-# 		return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
+def rate_song(request, slug, song_id, rating):
+	song = get_object_or_404(Song, pk=song_id)
+	try:
+		new_rating = Rating(user=request.user, song=song, rating=rating)
+		new_rating.save()
+		messages.success(request, 'Rating successfully submitted!')
+		return HttpResponseRedirect(reverse('musicvote:song-detail', args=(song.slug, song.pk,)))
+	except ValidationError as e:
+		messages.error(request, e.__cause__)
+		return HttpResponseRedirect(reverse('musicvote:song-detail', args=(song.slug, song.pk,)))
+	except IntegrityError as e:
+		messages.error(request, e.__cause__)
+		return HttpResponseRedirect(reverse('musicvote:song-detail', args=(song.slug, song.pk,)))
+	except ValueError as e:
+		messages.error(request, e.__cause__)
+		return HttpResponseRedirect(reverse('musicvote:song-detail', args=(song.slug, song.pk,)))
+		# return render(request, 'musicvote/song_detail.html', {
+		# 	'song': song,
+		# 	'error_message': e.__cause__
+		# })
+		
 # API VIEWS
 class ArtistViewSet(viewsets.ModelViewSet):
 	queryset = Artist.objects.all()

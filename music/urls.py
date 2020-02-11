@@ -20,19 +20,19 @@ from register import views as v
 from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from musicvote import views
 # from django.contrib.auth.views import login, logout
 
 urlpatterns = [
-    # path('musicvote/', include('musicvote.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('api/auth/', include('djoser.urls.authtoken')),
     path('register/', v.register, name='register'),
-    # path('login/', login, name='login'),
-    # path('logout/', logout, name='logout'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    # path('login/', views.login, name='login'),
     path('logout/', LogoutView.as_view(template_name='registration/login.html'), name='logout'),
     path('', include('musicvote.urls')),
-    path('', include('social_django.urls', namespace='social')),
+    # path('', views.home, name="home"),
+    # path('social-auth/', include('social_django.urls', namespace='social')),
     # path('', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

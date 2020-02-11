@@ -33,17 +33,31 @@
     </div>
     <div class="colview">
         <h3>Rate This Song!</h3>
+        {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
         {% if request.user.is_authenticated %}
-        <div class="sidebyside" id="votenumber">
+                {% if request.has_voted %}
+                <strong><em>You have already rated this song! Your rating is {{ request.current_rating }}.</em></strong>
+                {% else %}
+                <div class="sidebyside" id="votenumber">
             {% for i in '12345'|make_list %}
             <div class="votenumber" id="votenumber">
-            	<a href="#">{{ forloop.counter }}</a>
+                <a href="{% url 'musicvote:rate' song.slug song.pk forloop.counter %}">{{ forloop.counter }}</a>
             </div>
             {% endfor %}
         </div>
+                {% endif %}
+
+        
         {% else %}
         <h4><a href="{% url 'register' %}">Create a new account</a> or <a href="{% url 'login' %}">login</a> to be able to rate songs!</h4>
         {% endif %}
+
     </div>
 </div>
 {% endblock %}
