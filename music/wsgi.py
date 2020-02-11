@@ -15,5 +15,6 @@ load_dotenv(find_dotenv())
 
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'music.settings')
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'music.settings.development')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'music.settings.production')
 
 application = get_wsgi_application()
